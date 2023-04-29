@@ -1,0 +1,86 @@
+<div class="nav__signin-singup">
+    <a href="#" id="signin-link">Login</a>
+    <a href="#" id="signup-link" class="btn">Signup</a>
+</div>
+
+<!-- Sign-up form -->
+<div id="signup-form" style="display: none;">
+    <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br>
+
+        <button type="submit" id="signup-submit">Signup</button>
+    </form>
+</div>
+
+<!-- Sign-in form -->
+<div id="signin-form" style="display: none;">
+    <form>
+        <label for="signin-username">Username:</label>
+        <input type="text" id="signin-username" name="signin-username"><br>
+
+        <label for="signin-password">Password:</label>
+        <input type="password" id="signin-password" name="signin-password"><br>
+
+        <button type="submit" id="signin-submit">Signin</button>
+    </form>
+</div>
+
+<script>
+    const signupLink = document.getElementById('signup-link');
+    const signinLink = document.getElementById('signin-link');
+    const signupForm = document.getElementById('signup-form');
+    const signinForm = document.getElementById('signin-form');
+    const signupSubmit = document.getElementById('signup-submit');
+    const signinSubmit = document.getElementById('signin-submit');
+
+    // Handle click on signup link
+    signupLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        signupForm.style.display = 'block';
+    });
+
+    // Handle submission of signup form
+    signupSubmit.addEventListener('click', (event) => {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        localStorage.setItem(username, password);
+        signupForm.style.display = 'none';
+    });
+
+    // Handle click on signin link
+    signinLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        signinForm.style.display = 'block';
+    });
+
+    // Handle submission of signin form
+    signinSubmit.addEventListener('click', (event) => {
+        event.preventDefault();
+        const username = document.getElementById('signin-username').value;
+        const password = document.getElementById('signin-password').value;
+        const storedPassword = localStorage.getItem(username);
+        if (password === storedPassword) {
+            alert(`Welcome ${username}!`);
+            signinForm.style.display = 'none';
+            signinLink.innerText = username;
+            signupLink.innerText = 'Signout';
+        } else {
+            alert('Incorrect username or password!');
+        }
+    });
+
+    // Handle click on signout link
+    signupLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (signupLink.innerText === 'Signout') {
+            localStorage.removeItem(signinLink.innerText);
+            signinLink.innerText = 'Login';
+            signupLink.innerText = 'Signup';
+        }
+    });
+</script>
